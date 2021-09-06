@@ -6,7 +6,10 @@ import (
 	"os"
 	"time"
 
+	json "encoding/json"
+
 	"github.com/TechBowl-japan/go-stations/db"
+	"github.com/TechBowl-japan/go-stations/model"
 )
 
 func main() {
@@ -51,6 +54,13 @@ func realMain() error {
 	mux := http.NewServeMux()
 
 	// TODO: ここから実装を行う
+	mux.HandleFunc("/healthz", func(w http.ResponseWriter, req *http.Request) {
+		en := json.NewEncoder(w)
+		m := model.HealthzResponse{Message: "OK"}
+		if err = en.Encode(m); err != nil {
+			log.Println(err)
+		}
+	})
 	if err = http.ListenAndServe(port, mux); err != nil {
 		log.Fatal(err)
 	}
