@@ -9,6 +9,7 @@ import (
 	json "encoding/json"
 
 	"github.com/TechBowl-japan/go-stations/db"
+	"github.com/TechBowl-japan/go-stations/handler/router"
 	"github.com/TechBowl-japan/go-stations/model"
 )
 
@@ -51,7 +52,7 @@ func realMain() error {
 	defer todoDB.Close()
 
 	// set http handlers
-	mux := http.NewServeMux()
+	mux := router.NewRouter(todoDB)
 
 	// TODO: ここから実装を行う
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, req *http.Request) {
